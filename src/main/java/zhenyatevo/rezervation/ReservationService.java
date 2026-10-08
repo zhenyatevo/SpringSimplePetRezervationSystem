@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @Service
 public class ReservationService {
@@ -38,35 +39,13 @@ public class ReservationService {
     );
 
     public Reservation getReservationById(Long id) {
-        return new Reservation(
-                id,
-                100L,
-                40L,
-                LocalDate.now(),
-                LocalDate.now().plusDays(5),
-                ReservationStatus.APPROVED
-        );
+        if (!reservationMap.containsKey(id)) {
+            throw new NoSuchElementException("Reservation Not Found by id = "+ id);
+        }
+        return reservationMap.get(id);
     }
 
     public List<Reservation> findAllReservation() {
-        return List.of(
-                new Reservation(
-                        1L,
-                        100L,
-                        40L,
-                        LocalDate.now(),
-                        LocalDate.now().plusDays(5),
-                        ReservationStatus.APPROVED
-                ),
-                new Reservation(
-                        2L,
-                        100L,
-                        40L,
-                        LocalDate.now(),
-                        LocalDate.now().plusDays(5),
-                        ReservationStatus.APPROVED
-                )
-
-        );
+        return reservationMap.values().stream().toList();
     }
 }

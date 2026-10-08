@@ -1,6 +1,8 @@
 package zhenyatevo.rezervation;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,6 +11,10 @@ import java.util.List;
 
 @RestController
 public class ReservationController {
+
+    private static final Logger log = LoggerFactory.getLogger(ReservationController.class);
+
+
     private final ReservationService reservationService;
 
     public ReservationController(ReservationService reservationService) {
@@ -18,10 +24,12 @@ public class ReservationController {
     @GetMapping("/{id}")
     public Reservation getReservaionById(
             @PathVariable("id") Long id){
+        log.info("Called getReservaionById: id = " + id);
         return reservationService.getReservationById(id);
     }
     @GetMapping()
-    public List<Reservation> getAllReservaion(){
+    public List<Reservation> getAllReservations(){
+        log.info("Called getAllReservaion");
         return reservationService.findAllReservation();
     }
 
